@@ -14,6 +14,9 @@ export default function NeuralBackground() {
     let w = (canvas.width = window.innerWidth);
     let h = (canvas.height = window.innerHeight);
 
+    // Particle count scales with viewport area and is capped at 90 so the
+    // O(n²) proximity pass (pairwise distance for link drawing) stays cheap
+    // even on 4K screens — worst case ~4,000 distance checks per frame.
     const COUNT = Math.min(90, Math.floor((w * h) / 22000));
     const pts: P[] = Array.from({ length: COUNT }, () => ({
       x: Math.random() * w,

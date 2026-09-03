@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { VERBS, OBJECTS, DOMAINS, FRAMES, ADJECTIVES, pick } from '../../lib/engine';
+import { VERBS, OBJECTS, DOMAINS, FRAMES, ADJECTIVES } from '../../lib/lexicon';
+import { pick } from '../../lib/rng';
 
 type LineKind = 'sys' | 'thought' | 'glitch';
 interface Line { id: number; text: string; kind: LineKind }
@@ -34,8 +35,11 @@ export default function TerminalPanel() {
       return randomLine(Math.random, counter.current);
     });
     setLines(seedInitial);
+    // Cadence is drawn once per mount (0.9–1.8s) rather than per line: the
+    // stream feels irregular across reloads but stays a single cheap timer.
     const t = setInterval(() => {
       counter.current += 1;
+      // Ring buffer: the log keeps at most 160 lines in memory and in the DOM.
       setLines((ls) => [...ls.slice(-160), randomLine(Math.random, counter.current)]);
     }, 900 + Math.random() * 900);
     return () => clearInterval(t);

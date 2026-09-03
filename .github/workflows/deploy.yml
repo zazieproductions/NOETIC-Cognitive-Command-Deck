@@ -1,0 +1,71 @@
+name: Deploy to GitHub Pages
+
+# Builds the deck with the repository subdirectory as base path and publishes
+# it to GitHub Pages. Runs automatically on every push to main; can also be
+# dispatched manually from any branch (Actions → Deploy to GitHub Pages).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Clean install
+        run: npm ci
+
+      - name: Build (repo base path)
+        run: npm run build
+        env:
+          VITE_BASE_PATH: /NOETIC-Cognitive-Command-Deck/
+
+      # The deck's Open Graph/Twitter metadata references the social preview
+      # at /docs/images/... on the Pages host; stage the real captures into
+      # the site artifact so that URL resolves.
+      - name: Stage documentation imagery
+        run: |
+          mkdir -p dist/docs
+          cp -r docs/images dist/docs/images
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          # Creates the Pages site on first run (needs pages: write, granted
+          # by this workflow's permissions block).
+          enablement: true
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
