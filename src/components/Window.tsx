@@ -19,6 +19,9 @@ export default function Window({ id, title, icon, accent, defaultPos, z, boundsR
   const resizeState = useRef<{ startX: number; startY: number; origW: number; origH: number } | null>(null);
 
   useEffect(() => {
+    // Register once on mount with the default geometry from panels.ts; the
+    // initial z-index establishes the boot stacking order, after which the
+    // WindowManager's focus counter takes over.
     register(id, { ...defaultPos, z, minimized: false });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

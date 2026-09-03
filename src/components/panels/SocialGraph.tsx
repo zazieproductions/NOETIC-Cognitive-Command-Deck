@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
-import { generateSocialGraph, PRINCIPLES, type SocialNode } from '../../lib/engine';
+import { generateSocialGraph, type SocialNode } from '../../lib/engine';
+import { PRINCIPLES } from '../../lib/lexicon';
 
 const EDGE_COLOR = { trust: '#39FF88', neutral: '#8892a0', adversarial: '#EF476F' };
 

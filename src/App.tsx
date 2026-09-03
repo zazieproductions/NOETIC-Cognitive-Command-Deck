@@ -26,6 +26,8 @@ const PANEL_COMPONENTS: Record<string, ComponentType> = {
   terminal: TerminalPanel,
 };
 
+// Below 900px the draggable desktop gives way to an accordion of the same
+// panels — the window manager is desktop-only by design.
 function useIsMobile() {
   const [mobile, setMobile] = useState(() => window.innerWidth < 900);
   useEffect(() => {
@@ -37,7 +39,7 @@ function useIsMobile() {
 }
 
 function MobileLayout() {
-  const [open, setOpen] = useState<string>(PANELS[0].id);
+  const [open, setOpen] = useState<string | null>(PANELS[0].id);
   return (
     <div className="relative z-10 pt-14 pb-4 px-3 space-y-3 min-h-screen">
       {PANELS.map((p) => {
@@ -47,7 +49,7 @@ function MobileLayout() {
         return (
           <div key={p.id} className="rounded-xl border overflow-hidden" style={{ borderColor: `${p.accent}44`, background: 'rgba(9,10,16,0.86)' }}>
             <button
-              onClick={() => setOpen(isOpen ? '' : p.id)}
+              onClick={() => setOpen(isOpen ? null : p.id)}
               className="w-full flex items-center justify-between px-3 py-3"
               style={{ background: `linear-gradient(90deg, ${p.accent}1c, transparent 70%)` }}
             >

@@ -51,6 +51,10 @@ export function WindowManagerProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// Exported alongside the provider so panels have a single import site for
+// window state. This file is a leaf that never hot-reloads mid-tree, so the
+// fast-refresh warning is silenced deliberately.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useWM() {
   const c = useContext(WMContext);
   if (!c) throw new Error('useWM must be used inside WindowManagerProvider');

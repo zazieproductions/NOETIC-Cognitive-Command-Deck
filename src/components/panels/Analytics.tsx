@@ -4,6 +4,8 @@ import { TrendingUp, TrendingDown } from 'lucide-react';
 const RADAR_AXES = ['Originality', 'Feasibility', 'Virality', 'Cog. Load', 'Signal/Noise', 'Synchronicity'];
 const DOMAIN_BARS = ['Memetics', 'Biomimicry', 'Cryptoanarchism', 'Noopolitics', 'Neuro-Aesthetics', 'Hyperstition'];
 
+// Smoothed random walk used for all Analytics telemetry — values drift rather
+// than jump, which is what makes the fake dashboard read as a real one.
 function walk(v: number, amt = 6, min = 6, max = 97) {
   return Math.max(min, Math.min(max, v + (Math.random() - 0.5) * amt));
 }
@@ -75,6 +77,8 @@ function RadarChart({ values, color }: { values: number[]; color: string }) {
 }
 
 function Kpi({ label, value, suffix, color }: { label: string; value: string; suffix?: string; color: string }) {
+  // Trend direction and delta are drawn once at mount and never re-rolled —
+  // the "snapshot" reading of a KPI card, frozen like a exported report.
   const [up] = useState(() => Math.random() > 0.35);
   const [pct] = useState(() => (Math.random() * 12 + 1).toFixed(1));
   return (

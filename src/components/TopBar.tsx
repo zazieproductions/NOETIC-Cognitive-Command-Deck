@@ -10,8 +10,12 @@ function useClock() {
   return now;
 }
 
+// Performative telemetry: each meter random-walks on its own interval. The
+// clock beside them is real — the deck mixes genuine system signals with
+// synthetic ones, and never labels which is which.
 function Meter({ label, color }: { label: string; color: string }) {
-  const [v, setV] = useState(30 + Math.random() * 50);
+  // Lazy initializer: drawn once on mount, not on every render.
+  const [v, setV] = useState(() => 30 + Math.random() * 50);
   useEffect(() => {
     const t = setInterval(() => {
       setV((prev) => {

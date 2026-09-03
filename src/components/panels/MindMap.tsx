@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ZoomIn, ZoomOut, Maximize, Plus, Link2 } from 'lucide-react';
-import { generateMindMap, CATEGORY_COLOR, ADJECTIVES, DOMAINS, mulberry32, pick, type MindNode, type MindEdge } from '../../lib/engine';
+import { generateMindMap, CATEGORY_COLOR, MIND_CANVAS, type MindNode, type MindEdge } from '../../lib/engine';
+import { ADJECTIVES, DOMAINS } from '../../lib/lexicon';
+import { mulberry32, pick } from '../../lib/rng';
 
-const CANVAS_W = 2200;
-const CANVAS_H = 1400;
+const CANVAS_W = MIND_CANVAS.w;
+const CANVAS_H = MIND_CANVAS.h;
 
 export default function MindMap() {
   const initial = useMemo(() => generateMindMap(), []);

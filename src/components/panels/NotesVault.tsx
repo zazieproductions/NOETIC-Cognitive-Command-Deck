@@ -1,7 +1,11 @@
 import { useMemo, useState } from 'react';
 import { Search, FileText, Link as LinkIcon } from 'lucide-react';
-import { generateNotes, TAG_POOL, type Note } from '../../lib/engine';
+import { generateNotes, type Note } from '../../lib/engine';
+import { TAG_POOL } from '../../lib/lexicon';
 
+// Generated once at module load from seed 1337 — the vault's 260 fragments are
+// a fixed institution, identical on every boot, so search results and backlinks
+// are stable across sessions.
 const ALL_NOTES = generateNotes(260);
 const PAGE = 50;
 

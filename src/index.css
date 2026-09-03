@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Fraunces", "Times New Roman", serif;
+  /* "Fraunces Variable" is the Fontsource family name (variable opsz/wght). */
+  --font-display: "Fraunces Variable", "Fraunces", "Times New Roman", serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
   --color-noetic-teal: #7CFFD8;
   --color-noetic-violet: #8B5CF6;
