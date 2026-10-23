@@ -35,7 +35,7 @@
     "playwright": "^1.62.1",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.48.0",
-    "vite": "^7.3.1",
+    "vite": "^7.3.7",
     "vitest": "^4.1.11"
   },
   "description": "NOETIC — a cognitive command deck: a fictional operating system for synthetic thought. Created by Zazie Productions.",
